@@ -25,12 +25,24 @@ class ListaLibros {
                           <li class="list-group-item">${libro.autor}</li>
                           <li class="list-group-item">${
                             libro.oferta
-                              ? `<s>${libro.precio}</s>`
-                              : libro.precio
+                              ? `<s>$${new Intl.NumberFormat("es-ES", {
+                                  style: "currency",
+                                  currency: "CLP",
+                                }).format(libro.precio)}</s>`
+                              : `$${new Intl.NumberFormat("es-ES", {
+                                  style: "currency",
+                                  currency: "CLP",
+                                }).format(libro.precio)}`
                           }</li>
                           ${
                             libro.oferta
-                              ? `<li class="list-group-item">${libro.precioOferta}</li>`
+                              ? `<li class="list-group-item">$${new Intl.NumberFormat(
+                                  "es-ES",
+                                  {
+                                    style: "currency",
+                                    currency: "CLP",
+                                  }
+                                ).format(libro.precioOferta)}</li>`
                               : ""
                           }
                         </ul>
@@ -39,7 +51,9 @@ class ListaLibros {
                             <a class="col-12 btn btn-primary" href="/libro/${
                               libro.titulo
                             }">Ver más</a>
-                            <button class="col-12 btn btn-primary">
+                            <button class="col-12 btn btn-primary" onclick='carrito.agregarProducto(${
+                              libro.id
+                            })'>
                               Añadir al carrito
                             </button>
                           </div>
@@ -52,13 +66,23 @@ class ListaLibros {
     listaLibros.innerHTML = htmlLibros.join("");
   }
 
-  static filtrarLibros(filtros) {
-    // filtros => [oferta, stock]
+  filtrarLibros(filtros) {
+    // filtros => [oferta, stock, genero, autor]
+    const filtrosAplicables = {
+      oferta: (libro) => libro.oferta, // true o false
+      stock: (libro) => libro.stock > 0, // true o false
+    };
     const listaFiltrada = this.lista.filter((libro) => {
-      return libro.oferta === true && libro.stock > 0;
+      let keyResultado = true; // guardará true o false
+      filtros.forEach((filtro) => {
+        const resultado = filtrosAplicables[filtro](libro);
+        keyResultado &&= resultado;
+      });
+      return keyResultado;
     });
 
-    console.log(listaFiltrada)
-    this.mostrarLibros(listaFiltrada);
+    console.log(listaFiltrada);
+
+    ListaLibros.mostrarLibros(listaFiltrada);
   }
 }

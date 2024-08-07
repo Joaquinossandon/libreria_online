@@ -67,6 +67,8 @@ const libros = new ListaLibros([
   ),
 ]);
 
+const carrito = new Carrito(libros.lista);
+
 ListaLibros.mostrarLibros(libros.lista);
 
 const btnFiltros = document.getElementById("btn-filtros");
@@ -75,15 +77,17 @@ btnFiltros.addEventListener("click", (e) => {
   const checkboxFiltros = document.querySelectorAll(
     "#filtros input[type='checkbox']:checked"
   );
-  const filtrosAAplicar = []
+  const filtrosAAplicar = []; // ["stock", "oferta"]
   checkboxFiltros.forEach((checkbox) => {
     const nombreFiltro = limpiarIDElemento(checkbox.id); // stock o oferta
-    filtrosAAplicar.push(nombreFiltro)
+    filtrosAAplicar.push(nombreFiltro);
   });
 
-  ListaLibros.filtrarLibros(filtrosAAplicar)
+  libros.filtrarLibros(filtrosAAplicar);
 });
 
 const limpiarIDElemento = (IDElemento) => {
   return IDElemento.replace(/\w{0,}-/g, "");
 };
+
+carrito.getLocalStorage();

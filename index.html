@@ -10,6 +10,10 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
     <link rel="stylesheet" href="./assets/css/styles.css" />
   </head>
   <body data-bs-theme="dark">
@@ -38,14 +42,51 @@
         ></path>
       </symbol>
     </svg>
+
+    <!-- CARRITO -->
+    <div
+      class="offcanvas offcanvas-end"
+      tabindex="-1"
+      id="offcanvasRight"
+      aria-labelledby="offcanvasRightLabel"
+    >
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasRightLabel">
+          Tu carrito de compras
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body">
+        <button
+          class="btn btn-danger mb-4"
+          id="vaciar-carrito"
+          onclick="carrito.vaciarCarrito()"
+        >
+          <i class="bi bi-cart-x"></i> Vaciar carrito
+        </button>
+        <div class="list-group" id="lista-carrito"></div>
+        <hr />
+        <div class="d-flex justify-content-end gap-3 align-items-center">
+          <h5 class="m-0">TOTAL:</h5>
+          <span class="fs-2" id="total-carrito">$15.000</span>
+        </div>
+      </div>
+    </div>
+    <!-- FIN CARRITO -->
+
     <div class="alert alert-dark m-0 rounded-0">
-      A simple dark alert with
-      <a href="#" class="alert-link">an example link</a>. Give it a click if you
-      like.
+      Tenemos
+      <a href="#" class="alert-link">envío gratis</a> desde los $50.000 pesos.
+      🚛
     </div>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="#">La Libroteca</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -57,21 +98,31 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
+        <div
+          class="collapse navbar-collapse justify-content-between"
+          id="navbarNav"
+        >
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Features</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Pricing</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+              <a class="nav-link active" aria-current="page" href="#">Inicio</a>
             </li>
           </ul>
+          <button
+            class="btn btn-primary position-relative"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasRight"
+            aria-controls="offcanvasRight"
+          >
+            <i class="bi bi-cart-fill"></i>
+            Tu carrito
+            <span
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              id="cantidad-carrito"
+            >
+              0
+              <span class="visually-hidden">productos en tu carrito</span>
+            </span>
+          </button>
         </div>
       </div>
     </nav>
@@ -87,20 +138,22 @@
         </div>
         <div class="col-lg-6">
           <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">
-            Responsive left-aligned hero with image
+            Tu mejor lectura te espera
           </h1>
           <p class="lead">
-            Quickly design and customize responsive mobile-first sites with
-            Bootstrap, the world’s most popular front-end open source toolkit,
-            featuring Sass variables and mixins, responsive grid system,
-            extensive prebuilt components, and powerful JavaScript plugins.
+            Encuentra los mejores libros para ti y disfruta de la lectura.
           </p>
           <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-            <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">
-              Primary
+            <button
+              type="button"
+              class="btn btn-primary btn-lg px-4 me-md-2"
+              data-bs-toggle="modal"
+              data-bs-target="#modalRegistro"
+            >
+              Registrate
             </button>
             <button type="button" class="btn btn-outline-secondary btn-lg px-4">
-              Default
+              Ver Catálogo
             </button>
           </div>
         </div>
@@ -139,7 +192,9 @@
                 </label>
               </div>
             </div>
-            <button id="btn-filtros" type="button" class="btn btn-primary">Aplicar</button>
+            <button id="btn-filtros" type="button" class="btn btn-primary">
+              Aplicar
+            </button>
           </div>
         </aside>
         <section class="col-12 col-md-9">
@@ -189,6 +244,77 @@
         </li>
       </ul>
     </footer>
+
+    <!-- MODAL REGISTRO -->
+    <div
+      class="modal fade modalRegistro"
+      id="modalRegistro"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <div class="row">
+                <div class="d-none d-md-block col-4">
+                  <img
+                    class="img-fluid rounded-3"
+                    src="https://img.freepik.com/foto-gratis/mujer-joven-leyendo-libro-sentada-sillon-junto-ventana_169016-26716.jpg"
+                    alt=""
+                  />
+                </div>
+                <div class="col-8">
+                  <form>
+                    <div class="mb-3">
+                      <label for="user-name" class="form-label">Nombre</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="user-name"
+                        aria-describedby="emailHelp"
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label for="user-email" class="form-label">Email</label>
+                      <input
+                        type="email"
+                        class="form-control"
+                        id="user-email"
+                      />
+                    </div>
+                    <div class="mb-3 form-check">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="user-ofertas"
+                      />
+                      <label class="form-check-label" for="user-ofertas"
+                        >Quiero recibir ofertas</label
+                      >
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                      Submit
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- FIN MODAL REGISTRO -->
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
       integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
@@ -199,6 +325,7 @@
       integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
       crossorigin="anonymous"
     ></script>
+    <script src="./assets/js/Carrito.js"></script>
     <script src="./assets/js/ListaLibros.js"></script>
     <script src="./assets/js/Libro.js"></script>
     <script src="./assets/js/main.js"></script>
